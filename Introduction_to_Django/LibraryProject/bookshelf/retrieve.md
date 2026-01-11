@@ -1,14 +1,11 @@
-
----
-
-## 📄 `retrieve.md`
-
-```md
 # Retrieve Operation
 
 ## Description
-This document shows how to retrieve an existing `Book` record from the database.
+This document demonstrates how to retrieve an existing `Book` record from the database using the Django shell.
 
 ## Command Used
 ```python
-Book.objects.get(id=1)
+from bookshelf.models import Book
+
+book = Book.objects.get(title="1984")
+book
