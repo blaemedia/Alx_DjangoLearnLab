@@ -5,15 +5,55 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import user_passes_test
-from .models import Book, Library
+from .models import Book, Library,Author
+from .forms import BookForm
 
 # -----------------------------
 # Function-Based View: List all books
 # -----------------------------
+
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Book added successfully!")
+            return redirect('book-list')
+    else:
+        form = BookForm()
+    return render(request, 'relationship_app/add_book.html', {'form': form})
+
+
+
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Book updated successfully!")
+            return redirect('book-list')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'relationship_app/edit_book.html', {'form': form, 'book': book})
+
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        messages.success(request, "Book deleted successfully!")
+        return redirect('book-list')
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
+
 def book_list_view(request):
     books = Book.objects.all()
     return render(request, 'relationship_app/book_list.html', {'books': books})
