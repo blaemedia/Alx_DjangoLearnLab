@@ -14,7 +14,7 @@ from relationship_app.models import Author, Book, Library, Librarian
 def books_by_author(author_name):
     try:
         author = Author.objects.get(name=author_name)
-        # ✅ Use objects.filter(author=author) as expected
+        # ✅ Use objects.filter(author=author) as required
         books = Book.objects.filter(author=author)
         print(f"Books by {author.name}:")
         for book in books:
@@ -28,7 +28,7 @@ def books_by_author(author_name):
 def books_in_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        books = library.books.all()
+        books = library.books.all()  # ManyToManyField
         print(f"Books in {library.name}:")
         for book in books:
             print(f"- {book.title} (Author: {book.author.name})")
@@ -41,7 +41,8 @@ def books_in_library(library_name):
 def librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        librarian = library.librarian
+        # ✅ Use Librarian.objects.get(library=library) as required
+        librarian = Librarian.objects.get(library=library)
         print(f"Librarian for {library.name}: {librarian.name}")
     except Library.DoesNotExist:
         print(f"No library found with name '{library_name}'")
