@@ -47,3 +47,14 @@ def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
     return redirect("book_list")
+
+
+
+
+def search_books(request):
+    query = request.GET.get("q", "").strip()
+
+    # Django ORM automatically parameterizes queries
+    books = Book.objects.filter(title__icontains=query)
+
+    return render(request, "bookshelf/search.html", {"books": books})
