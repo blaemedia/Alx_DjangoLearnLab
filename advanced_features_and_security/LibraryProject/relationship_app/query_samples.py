@@ -2,7 +2,7 @@
 import os
 import django
 
-# Setup Django environment so we can use models
+# Set up Django environment
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Alx_DjangoLearnLab.settings")
 django.setup()
 
@@ -14,7 +14,8 @@ from relationship_app.models import Author, Book, Library, Librarian
 def books_by_author(author_name):
     try:
         author = Author.objects.get(name=author_name)
-        books = author.books.all()  # related_name='books' in Book model
+        # ✅ Use objects.filter(author=author) as required
+        books = Book.objects.filter(author=author)
         print(f"Books by {author.name}:")
         for book in books:
             print(f"- {book.title}")
@@ -40,7 +41,8 @@ def books_in_library(library_name):
 def librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        librarian = library.librarian  # OneToOneField related_name
+        # ✅ Use Librarian.objects.get(library=library) as required
+        librarian = Librarian.objects.get(library=library)
         print(f"Librarian for {library.name}: {librarian.name}")
     except Library.DoesNotExist:
         print(f"No library found with name '{library_name}'")
@@ -51,8 +53,8 @@ def librarian_for_library(library_name):
 # Example Usage
 # -----------------------------
 if __name__ == "__main__":
-    books_by_author("J.K. Rowling")
+    books_by_author("J.K. Rowling")       # Query all books by specific author
     print("\n")
-    books_in_library("Central Library")
+    books_in_library("Central Library")   # List all books in a library
     print("\n")
-    librarian_for_library("Central Library")
+    librarian_for_library("Central Library")  # Retrieve librarian for library
