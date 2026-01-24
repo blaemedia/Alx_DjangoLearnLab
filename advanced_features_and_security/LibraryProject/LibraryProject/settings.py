@@ -128,6 +128,20 @@ USE_I18N = True
 
 USE_TZ = True
 
+SECURE_SSL_REDIRECT = True
+
+
+CSRF_COOKIE_SECURE = True
+
+
+X_FRAME_OPTIONS = "DENY"
+
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+SECURE_BROWSER_XSS_FILTER = True
+
 
 # Content Security Policy
 CSP_DEFAULT_SRC = ("'self'",)
