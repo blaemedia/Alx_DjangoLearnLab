@@ -154,6 +154,13 @@ CSP_IMG_SRC = ("'self'",)
 
 STATIC_URL = 'static/'
 
+SECURE_HSTS_SECONDS = 31536000 
+
+
+# HTTPS Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
