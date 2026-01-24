@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = "LibraryProject.CustomUser"
+AUTH_USER_MODEL = "bookshelf.CustomUser"
 # Application definition
 
 INSTALLED_APPS = [
