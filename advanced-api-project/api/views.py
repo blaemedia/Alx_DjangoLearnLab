@@ -22,13 +22,13 @@ class BookListView(generics.ListAPIView):
     filter_backends = [rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
     # Fields you can filter by
-    filterset_fields = ['title', 'author', 'published_date']
+    filterset_fields = ['title', 'author', 'publication_year']
 
     # 🔹 Fields you can search in (this is what the check wants)
     search_fields = ['title', 'author']
 
     # Fields you can order by
-    ordering_fields = ['title', 'author', 'published_date']
+    ordering_fields = ['title', 'author', 'ppublication_year']
     ordering = ['title']
 
 
